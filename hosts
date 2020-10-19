@@ -1,0 +1,15 @@
+[jenkins_server:children]
+jenkins_manager
+jenkins_worker
+
+[jenkins_master:children]
+jenkins_manager
+
+[jenkins_slave:children]
+jenkins_worker
+
+[jenkins_manager]
+jenkins             ansible_host=
+
+[jenkins_worker]
+# jenkins_worker1     ansible_host=

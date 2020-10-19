@@ -1,0 +1,10 @@
+---
+# tasks file for jenkins-config
+- name: Update /etc/sysconfig/jenkins
+  template:
+      dest: /etc/sysconfig/jenkins
+      src: jenkins.sysconfig.j2
+      owner: root
+      group: root
+      mode: '0600'
+  notify: restart jenkins service

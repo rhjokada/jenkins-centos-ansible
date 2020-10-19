@@ -1,0 +1,10 @@
+---
+# handlers file for jenkins-install
+- name: firewall reload
+  systemd:
+    name: firewalld
+    state: restarted
+- name: restart jenkins service
+  systemd:
+    name: jenkins
+    state: restarted

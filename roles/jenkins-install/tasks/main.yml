@@ -1,0 +1,49 @@
+---
+# tasks file for jenkins-install
+- name: Install Requires Packages
+  dnf:
+    name:
+    - java-1.8.0-openjdk-devel
+    state: present
+
+- name: Add repository
+  yum_repository:
+    name: jenkins
+    baseurl: https://pkg.jenkins.io/redhat-stable
+    description: "Jenkins Repo"
+- name: Add keyfile
+  rpm_key:
+      key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+- name: yum update
+  dnf:
+    name: '*'
+    state: latest
+- name: Install Jenkins
+  dnf:
+    name: jenkins
+    state: present
+  notify: restart jenkins service
+- name: enable jenkins service
+  systemd:
+    name: jenkins
+    enabled: yes
+  notify: restart jenkins service
+
+- name: configure /etc/sysconfig/jenkins
+  template:
+      dest: /etc/sysconfig/jenkins
+      src: jenkins.sysconfig.j2
+      owner: root
+      group: root
+      mode: '0600'
+  notify: restart jenkins service
+
+- name: add firewall rule
+  firewalld:
+    port: "{{ item }}"
+    permanent: yes
+    state: enabled
+  with_items:
+  - "{{ jenkins_bind_port_http }}/tcp"
+  - "50000/tcp"
+  notify: "firewall reload"

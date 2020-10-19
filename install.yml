@@ -1,0 +1,35 @@
+---
+- hosts: jenkins_server
+  become: yes
+  tasks:
+  - name:
+    debug:
+      msg: "Run tasks @ Jenkins"
+
+  - name: make buckup folder
+    file:
+      path: /var/backup/jenkins
+      mode: '0755'
+      group: jenkins
+      owner: jenkins
+      state: directory
+  - debug:
+      var: jenkins_bind_port_http
+
+- hosts: jenkins_manager
+  become: yes
+  roles:
+  - jenkins-install
+  - jenkins-config
+  tasks:
+  - debug:
+      var: jenkins_bind_port_http
+
+- hosts: jenkins_worker
+  become: yes
+  tasks:
+  - name:
+    debug:
+      msg: "Run tasks @Jenkins Worker"
+  - debug:
+      var: jenkins_bind_port_http

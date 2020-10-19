@@ -1,0 +1,40 @@
+---
+- hosts: jenkins_server
+  become: yes
+  tasks:
+  - name:
+    debug:
+      msg: "Run tasks @ Jenkins"
+
+- hosts: jenkins_manager
+  become: yes
+  tasks:
+  - name: debug
+    debug:
+      msg: "Run tasks @ Jenkins Manager"
+      verbosity: 1
+
+  - name: stop and remove jenkins service
+    systemd:
+      name: jenkins
+      state: stopped
+      enabled: no
+  - name: UnInstall Jenkins
+    dnf:
+      name: jenkins
+      state: absent
+  - name: remove Jenkins directory
+    file:
+      path: /var/lib/jenkins
+      state: absent
+  - name: remove Jenkins logs
+    file:
+      path: /var/log/jenkins
+      state: absent
+
+- hosts: jenkins_worker
+  become: yes
+  tasks:
+  - name:
+    debug:
+      msg: "Run tasks @Jenkins Worker"
