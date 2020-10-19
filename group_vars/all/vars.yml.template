@@ -1,0 +1,2 @@
+jenkins_bind_port_http: 8080
+jenkins_context_path: /jenkins
