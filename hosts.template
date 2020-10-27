@@ -1,5 +1,5 @@
-jenkins             ansible_host=
-# jenkins_worker1     ansible_host=
+jenkins             ansible_host=example.com
+# jenkins_worker1     ansible_host=example.com
 
 [jenkins_server:children]
 jenkins_manager
