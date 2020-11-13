@@ -26,7 +26,7 @@
 
   - name: make buckup folder
     file:
-      path: /var/backup/jenkins
+      path: /backup/jenkins
       mode: '0755'
       group: jenkins
       owner: jenkins
