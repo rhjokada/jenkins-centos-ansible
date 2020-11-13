@@ -4,6 +4,7 @@
   dnf:
     name:
     - java-1.8.0-openjdk-devel
+    - python3-firewall
     state: present
 
 - name: Add repository
